@@ -1,10 +1,12 @@
-package com.yshmgrt.school.geom.annotations
+package com.yshmgrt.school.geom.app.view
 
-import com.yshmgrt.school.geom.model.IShape
-import com.yshmgrt.school.geom.model.ShapeModel
-import com.yshmgrt.school.geom.util.NoSelectionModel
-import com.yshmgrt.school.geom.util.updateCanvas
-import com.yshmgrt.school.geom.view.ChooseMenuView
+import com.yshmgrt.school.geom.app.util.*
+import com.yshmgrt.school.geom.shared.annotation.*
+import com.yshmgrt.school.geom.shared.annotation.Field
+import com.yshmgrt.school.geom.shared.model.IShape
+import com.yshmgrt.school.geom.shared.model.ShapeModel
+import com.yshmgrt.school.geom.shared.util.updateCanvas
+import com.yshmgrt.school.geom.shared.util.updateLists
 import javafx.beans.property.*
 import javafx.scene.Node
 import javafx.scene.control.TextField
@@ -13,14 +15,6 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.declaredFunctions
 import kotlin.reflect.full.memberProperties
-
-annotation class Field(val name : String = "", val id : Int = -1)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Action(val name : String = "", val id : Int = -1)
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Text
-@Retention(AnnotationRetention.RUNTIME)
-annotation class ActionWithResult(val name : String = "", val id : Int = -1)
 
 class GenericForm(src : Any) : Fragment() {
     override val root : Form = form{
@@ -39,8 +33,8 @@ class GenericForm(src : Any) : Fragment() {
                 field(annotation.name) {
                     val value = field.getter.call(src)
                     when (value) {
-                        is SimpleStringProperty -> eventtextfield { bind(value) }
-                        is SimpleDoubleProperty -> eventtextfield { bind(value) }
+                        is SimpleStringProperty -> eventTextField { bind(value) }
+                        is SimpleDoubleProperty -> eventTextField { bind(value) }
                         is SimpleListProperty<*> -> listview(value as SimpleListProperty<Any>) {
                             selectionModel = NoSelectionModel<Any>()
                             cellFormat {
@@ -49,11 +43,11 @@ class GenericForm(src : Any) : Fragment() {
                                     hbox {
                                         button("Add").action {
                                             value.value.add(index + 1, value.value[0]::class.createInstance())
-                                            updateCanvas()
+                                            updateLists()
                                         }
                                         button("Delete").action {
                                             value.value.remove(index, index + 1)
-                                            updateCanvas()
+                                            updateLists()
                                         }
                                     }
                                 }
@@ -99,7 +93,7 @@ class GenericForm(src : Any) : Fragment() {
         }
     }
 }
-fun Node.eventtextfield(f : TextField.() -> Unit) {
+fun Node.eventTextField(f : TextField.() -> Unit) {
     textfield().apply(f).apply {
         onTextChange { updateCanvas() }
         onFocusChanged { updateCanvas() }

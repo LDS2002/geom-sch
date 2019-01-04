@@ -1,11 +1,13 @@
-package com.yshmgrt.school.geom.view
+package com.yshmgrt.school.geom.app.view
 
-import com.yshmgrt.school.geom.annotations.GenericForm
-import com.yshmgrt.school.geom.app.Styles
-import com.yshmgrt.school.geom.controller.GeoController
-import com.yshmgrt.school.geom.model.IShape
-import com.yshmgrt.school.geom.model.ShapeModel
-import com.yshmgrt.school.geom.util.*
+
+import com.yshmgrt.school.geom.app.app.Styles
+import com.yshmgrt.school.geom.app.controller.GeoController
+import com.yshmgrt.school.geom.app.util.*
+import com.yshmgrt.school.geom.shared.model.IShape
+import com.yshmgrt.school.geom.shared.model.ShapeModel
+import com.yshmgrt.school.geom.shared.util.UpdateCanvasEvent
+import com.yshmgrt.school.geom.shared.util.UpdateListsEvent
 import javafx.geometry.Orientation
 import javafx.geometry.Pos
 import javafx.geometry.Side
@@ -90,7 +92,7 @@ class MainView : View("Hello TornadoFX") {
                     cellFormat {
                         graphic = button(item?.simpleName ?: "") {
                             action {
-                                controller.add(item.createInstance())
+                                controller.add(item.createInstance() as IShape)
                                 updateLists()
                             }
                         }
@@ -116,9 +118,10 @@ class MainView : View("Hello TornadoFX") {
     }
 
     private fun updateLists() = runLater {
-        updateCanvas()
+        canvas.updateBounds()
+        canvas.drawShapes()
         list.refresh()
-        changeFragment(model.item?.getForm())
+        changeFragment(if (model.item != null) GenericForm(model.item) else EmptyFragment())
     }
 
     private fun updateCanvas() = runLater {

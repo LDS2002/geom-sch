@@ -38,10 +38,7 @@ class Polyline() : IShape {
 
     @Field("", 1)
     val srcProperty = SimpleListProperty(FXCollections.observableArrayList<P2D>())
-    var src: ObservableList<P2D> = FXCollections.emptyObservableList()
-    init {
-        srcProperty.value = src
-    }
+    var src: ObservableList<P2D> by srcProperty
 
     @Field("name", 0)
     override val nameProperty = SimpleStringProperty("")
@@ -49,9 +46,9 @@ class Polyline() : IShape {
 
     constructor(src : ObservableList<P2D>, name : String = "") : this(){
         this.name = name
-        this.src = src.map { it -> it }.observable()
+        this.src.setAll(src.map { it -> it }.observable())
     }
-    
+
     override fun transform(f : (P2D) -> P2D) = Polyline(src.map{it as P2D}.map(f).observable(), name)
 
     override fun draw(parent : GraphicsContext) = with(parent) {
@@ -63,5 +60,8 @@ class Polyline() : IShape {
     }
 
     @Action("Add", 0)
-    fun addPoint() = src.add(P2D())
+    fun addPoint()
+    {
+        src.add(P2D())
+    }
 }

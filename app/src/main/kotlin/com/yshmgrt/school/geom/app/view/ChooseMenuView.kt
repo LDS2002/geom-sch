@@ -1,8 +1,8 @@
-package com.yshmgrt.school.geom.view
+package com.yshmgrt.school.geom.app.view
 
-import com.yshmgrt.school.geom.controller.GeoController
-import com.yshmgrt.school.geom.model.IShape
-import com.yshmgrt.school.geom.model.ShapeModel
+import com.yshmgrt.school.geom.app.controller.GeoController
+import com.yshmgrt.school.geom.shared.model.IShape
+import com.yshmgrt.school.geom.shared.model.ShapeModel
 import tornadofx.*
 
 class ChooseMenuView(private var f : (IShape) -> Boolean) : Fragment("Choose shape") {

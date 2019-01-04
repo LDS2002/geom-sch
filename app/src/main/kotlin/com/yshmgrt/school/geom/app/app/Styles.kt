@@ -1,4 +1,4 @@
-package com.yshmgrt.school.geom.app
+package com.yshmgrt.school.geom.app.app
 
 import tornadofx.*
 

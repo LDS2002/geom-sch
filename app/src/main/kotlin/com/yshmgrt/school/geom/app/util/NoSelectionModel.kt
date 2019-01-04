@@ -1,4 +1,4 @@
-package com.yshmgrt.school.geom.util
+package com.yshmgrt.school.geom.app.util
 
 import javafx.scene.control.MultipleSelectionModel
 import tornadofx.*

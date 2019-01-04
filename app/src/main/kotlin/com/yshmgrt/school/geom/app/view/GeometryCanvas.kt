@@ -1,13 +1,13 @@
-package com.yshmgrt.school.geom.view
+package com.yshmgrt.school.geom.app.view
 
-import com.yshmgrt.school.geom.controller.GeoController
-import com.yshmgrt.school.geom.util.P2D
+import com.yshmgrt.school.geom.app.controller.GeoController
+import com.yshmgrt.school.geom.shared.util.P2D
 import javafx.scene.canvas.Canvas
 import javafx.scene.paint.Color
 import java.lang.Double.max
 import java.lang.Double.min
 
-class git GeometryCanvas(private val controller: GeoController) : Canvas() {
+class GeometryCanvas(private val controller: GeoController) : Canvas() {
 
     private var xMin = 0.0
     private var xMax = 0.0
